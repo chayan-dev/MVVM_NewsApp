@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.AbsListView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm_newsapp.R
@@ -116,8 +116,10 @@ class BreakingNewsFragment: Fragment(R.layout.fragment_breaking_news) {
         binding.rvBreakingNews.apply {
             adapter=newsAdapter
             layoutManager= LinearLayoutManager(activity)
+            addItemDecoration(DividerItemDecoration(this.context,DividerItemDecoration.VERTICAL))
             addOnScrollListener(this@BreakingNewsFragment.scrollListener)
         }
+
     }
 
 }
