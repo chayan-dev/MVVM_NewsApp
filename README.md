@@ -14,6 +14,16 @@ A news app with MVVM architecture pattern
 - Under save news tab, you can read saved news and also delete them by swiping left/right. UNDO option pops up, to prevent accidental swipes.
 - Under search news tab, search for any news using keywords/sentences.
 
+<h1 align="center">-: 📷SCREEN SHOTS📷 :-</h1>
+
+<p align="center">
+  <img src=https://github.com/chayan-dev/MVVM_NewsApp/blob/master/assets/inCollage_20220305_174542851.jpg  />
+</p>
+
+<p align="center">
+  <img src=https://github.com/chayan-dev/MVVM_NewsApp/blob/master/assets/inCollage_20220305_174720696.jpg  />
+</p>
+
 ## Tech used 👨‍💻 :
 
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development. Our app is totally written in kotlin.
@@ -28,3 +38,8 @@ A news app with MVVM architecture pattern
 - [Retrofit](https://github.com/square/retrofit) - A type-safe HTTP client for Android and Java.
 - [RecyclerView](https://developer.android.com/guide/topics/ui/layout/recyclerview?authuser=2) - RecyclerView makes it easy to efficiently display large sets of data. To show large lists.
 - [MVVM](https://developer.android.com/jetpack/guide) - MVVM architecture is a Model-View-ViewModel architecture that removes the tight coupling between each component. In the note taking section we used MVVM.
+- [WebView](https://developer.android.com/guide/webapps/webview) -The WebView class is an extension of Android's View class that allows you to display web pages as a part of your activity layout.
+ 
+ ## API used:
+ 
+ ### [NewsAPI](https://newsapi.org/) - Locate articles and breaking news headlines from news sources and blogs across the web with a JSON API
