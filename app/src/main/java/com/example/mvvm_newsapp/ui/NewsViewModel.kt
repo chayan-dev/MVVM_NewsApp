@@ -47,7 +47,9 @@ val newsRepository: NewsRepository
         if(response.isSuccessful){
             response.body()?.let { resultResponse ->
                 breakingNewsPage++
-                if(breakingNewsResponse==null) breakingNewsResponse=resultResponse
+                if(breakingNewsResponse==null) {
+                    breakingNewsResponse = resultResponse
+                }
                 else{
                     val oldArticles=breakingNewsResponse?.articles
                     val newArticle=resultResponse.articles
@@ -63,7 +65,9 @@ val newsRepository: NewsRepository
         if(response.isSuccessful){
             response.body()?.let { resultResponse ->
                 searchNewsPage++
-                if(searchNewsResponse==null) searchNewsResponse=resultResponse
+                if(searchNewsResponse==null) {
+                    searchNewsResponse = resultResponse
+                }
                 else{
                     val oldArticles=searchNewsResponse?.articles
                     val newArticle=resultResponse.articles
