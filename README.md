@@ -10,7 +10,7 @@ A news app with MVVM architecture pattern
 
 - Swipe down through a feed of breaking news along with pagination functionality.
 - Click on your desired news article and read the whole article -> implemented through WebView.
-- Save the the article for later.
+- Save the article for later (using RoomDB).
 - Under save news tab, you can read saved news and also delete them by swiping left/right. UNDO option pops up, to prevent accidental swipes.
 - Under search news tab, search for any news using keywords/sentences.
 
