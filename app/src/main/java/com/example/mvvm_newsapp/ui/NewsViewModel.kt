@@ -26,7 +26,7 @@ val newsRepository: NewsRepository
 
 
     init {
-        getBreakingNews("in")
+        getBreakingNews("us")
     }
 
     fun getBreakingNews(countryCode:String)=viewModelScope.launch{
