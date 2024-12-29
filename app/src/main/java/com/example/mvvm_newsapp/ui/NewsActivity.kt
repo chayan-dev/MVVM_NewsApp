@@ -1,4 +1,4 @@
-package com.example.mvvm_newsapp.ui.fragments
+package com.example.mvvm_newsapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,8 +9,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.mvvm_newsapp.R
 import com.example.mvvm_newsapp.db.ArticleDatabase
 import com.example.mvvm_newsapp.repository.NewsRepository
-import com.example.mvvm_newsapp.ui.NewsViewModel
-import com.example.mvvm_newsapp.ui.NewsViewModelProviderFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NewsActivity : AppCompatActivity() {

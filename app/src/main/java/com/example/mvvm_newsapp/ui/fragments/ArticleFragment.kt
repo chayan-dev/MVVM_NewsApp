@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.mvvm_newsapp.R
 import com.example.mvvm_newsapp.databinding.FragmentArticleBinding
+import com.example.mvvm_newsapp.ui.NewsActivity
 import com.example.mvvm_newsapp.ui.NewsViewModel
 import com.google.android.material.snackbar.Snackbar
 
