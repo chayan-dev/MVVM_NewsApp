@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.mvvm_newsapp.R
-import com.example.mvvm_newsapp.adapters.NewsAdapter
+import com.example.mvvm_newsapp.ui.adapters.NewsAdapter
 import com.example.mvvm_newsapp.databinding.FragmentSearchNewsBinding
 import com.example.mvvm_newsapp.ui.NewsViewModel
 import com.example.mvvm_newsapp.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
@@ -26,6 +26,7 @@ class SearchNewsFragment : Fragment() {
     private lateinit var binding: FragmentSearchNewsBinding
     private lateinit var viewModel: NewsViewModel
     private lateinit var newsAdapter: NewsAdapter
+    private var job: Job? = null;
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,19 +43,7 @@ class SearchNewsFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[NewsViewModel::class.java]
         setupRecycleView()
         addObserver()
-
-        var job: Job? = null;
-        binding.etSearch.addTextChangedListener { editable ->
-            job?.cancel()
-            job = MainScope().launch {
-                delay(SEARCH_NEWS_TIME_DELAY)
-                editable?.let {
-                    if (editable.toString().isNotEmpty()) {
-                        viewModel.searchNews(editable.toString())
-                    }
-                }
-            }
-        }
+        addTextChangeListener()
     }
 
     private fun addObserver() {
@@ -77,6 +66,20 @@ class SearchNewsFragment : Fragment() {
         newsAdapter.addLoadStateListener { loadState ->
             if (loadState.source.refresh is LoadState.Loading) showProgressBar()
             else hideProgressBar()
+        }
+    }
+
+    private fun addTextChangeListener(){
+        binding.etSearch.addTextChangedListener { editable ->
+            job?.cancel()
+            job = MainScope().launch {
+                delay(SEARCH_NEWS_TIME_DELAY)
+                editable?.let {
+                    if (editable.toString().isNotEmpty()) {
+                        viewModel.searchNews(editable.toString())
+                    }
+                }
+            }
         }
     }
 

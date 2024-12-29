@@ -1,4 +1,4 @@
-package com.example.mvvm_newsapp.ui
+package com.example.mvvm_newsapp.repository.pagingDataSource
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -6,15 +6,15 @@ import com.example.mvvm_newsapp.models.Article
 import com.example.mvvm_newsapp.repository.NewsRepository
 
 
-class SearchNewsPagingSource(
+class NewsPagingSource(
     private val repository: NewsRepository,
-    private val query: String
+    private val countryCode: String
 ) : PagingSource<Int, Article>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val page = params.key ?: 1 // Start from page 1
         return try {
-            val response = repository.searchNews(query, page)
+            val response = repository.getBreakingNews(countryCode, page)
             if (response.isSuccessful) {
                 val articles = response.body()?.articles ?: emptyList()
                 LoadResult.Page(

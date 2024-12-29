@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm_newsapp.R
 import com.example.mvvm_newsapp.databinding.FragmentSavedNewsBinding
 import com.example.mvvm_newsapp.ui.NewsViewModel
-import com.example.mvvm_newsapp.ui.SavedNewsAdapter
+import com.example.mvvm_newsapp.ui.adapters.SavedNewsAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,11 +34,15 @@ class SavedNewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProvider(requireActivity())[NewsViewModel::class.java]
         setupRecycleView()
         addSwipeDelete(view)
-        viewModel.getSavedNews().observe(viewLifecycleOwner) { articles ->
+        addObservers()
+        viewModel.getSavedNews()
+    }
+
+    private fun addObservers(){
+        viewModel.savedArticle.observe(viewLifecycleOwner) { articles ->
             newsAdapter.differ.submitList(articles)
         }
     }
@@ -58,7 +62,7 @@ class SavedNewsFragment : Fragment() {
 
     private fun addSwipeDelete(view: View) {
         val itemTouchHelperCallBack = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
             override fun onMove(
@@ -66,19 +70,15 @@ class SavedNewsFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                return true
+                //not handling drag & drop
+                return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
+                val position = viewHolder.bindingAdapterPosition
                 val article = newsAdapter.differ.currentList[position]
                 viewModel.deleteArticle(article)
-                Snackbar.make(view, "Successfully deleted article", Snackbar.LENGTH_LONG).apply {
-                    setAction("Undo") {
-                        viewModel.saveArticle(article)
-                    }
-                    show()
-                }
+                Snackbar.make(view, getString(R.string.article_deleted_successfully), Snackbar.LENGTH_LONG).show()
             }
         }
 

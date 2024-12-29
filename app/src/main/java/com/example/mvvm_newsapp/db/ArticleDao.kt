@@ -8,11 +8,10 @@ import com.example.mvvm_newsapp.models.Article
 interface ArticleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsert(article: Article):Long
+    fun upsert(article: Article): Long
 
     @Query("SELECT * FROM articles")
-    fun getAllArticles():LiveData<List<Article>>
-
+    fun getAllArticles(): List<Article>
 
     @Delete
     fun deleteArticle(article: Article)

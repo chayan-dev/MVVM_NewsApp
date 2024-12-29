@@ -1,17 +1,18 @@
-package com.example.mvvm_newsapp.ui
+package com.example.mvvm_newsapp.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mvvm_newsapp.databinding.ItemArticlePreviewBinding
 import com.example.mvvm_newsapp.models.Article
+import com.example.mvvm_newsapp.util.formatDate
 
-class SavedNewsAdapter(
+class NewsAdapter(
     val onClick: ((Article)->Unit)
-): RecyclerView.Adapter<SavedNewsAdapter.ArticleViewHolder>() {
+): PagingDataAdapter<Article, NewsAdapter.ArticleViewHolder>(ItemComparator()) {
 
     inner class ArticleViewHolder(private val binding: ItemArticlePreviewBinding ): RecyclerView.ViewHolder(binding.root){
         fun bind(article: Article) = with(binding){
@@ -19,7 +20,8 @@ class SavedNewsAdapter(
             tvSource.text=article.source?.name
             tvTitle.text=article.title
             tvDescription.text=article.description
-            tvPublishedAt.text=article.publishedAt
+            val date = article.publishedAt?.let { formatDate(it) }
+            tvPublishedAt.text = date
             root.setOnClickListener {
                 onClick(article)
             }
@@ -36,14 +38,10 @@ class SavedNewsAdapter(
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        holder.bind(differ.currentList[position])
+        getItem(position)?.let { holder.bind(it) }
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
-
-    private val differCallback= object: DiffUtil.ItemCallback<Article>(){
+    class ItemComparator : DiffUtil.ItemCallback<Article>(){
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.url==newItem.url
         }
@@ -51,6 +49,4 @@ class SavedNewsAdapter(
             return oldItem==newItem
         }
     }
-
-    val differ = AsyncListDiffer(this,differCallback)
 }

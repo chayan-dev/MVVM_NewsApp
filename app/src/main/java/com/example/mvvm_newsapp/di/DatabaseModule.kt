@@ -1,4 +1,4 @@
-package com.example.newsapp_latest.di
+package com.example.mvvm_newsapp.di
 
 import android.content.Context
 import androidx.room.Room

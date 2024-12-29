@@ -7,8 +7,8 @@ import com.example.mvvm_newsapp.models.Article
 import javax.inject.Inject
 
 class NewsRepository @Inject constructor(
-    val api: NewsAPI,
-    val dao: ArticleDao
+    private val api: NewsAPI,
+    private val dao: ArticleDao
 ) {
 
     suspend fun getBreakingNews(countryCode: String, pageNumber: Int) =

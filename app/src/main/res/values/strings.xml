@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MVVM_NewsApp</string>
     <string name="article_saved_successfully">Article saved successfully</string>
+    <string name="article_deleted_successfully">Successfully deleted article</string>
 </resources>

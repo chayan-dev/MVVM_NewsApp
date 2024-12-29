@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.mvvm_newsapp.R
-import com.example.mvvm_newsapp.adapters.NewsAdapter
+import com.example.mvvm_newsapp.ui.adapters.NewsAdapter
 import com.example.mvvm_newsapp.databinding.FragmentBreakingNewsBinding
 import com.example.mvvm_newsapp.ui.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint

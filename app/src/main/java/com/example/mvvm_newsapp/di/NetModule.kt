@@ -1,4 +1,4 @@
-package com.example.newsapp_latest.di
+package com.example.mvvm_newsapp.di
 
 import com.example.mvvm_newsapp.api.NewsAPI
 import com.example.mvvm_newsapp.util.Constants.Companion.BASE_URL
