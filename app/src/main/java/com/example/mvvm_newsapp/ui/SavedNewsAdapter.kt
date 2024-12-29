@@ -1,17 +1,17 @@
-package com.example.mvvm_newsapp.adapters
+package com.example.mvvm_newsapp.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mvvm_newsapp.databinding.ItemArticlePreviewBinding
 import com.example.mvvm_newsapp.models.Article
 
-class NewsAdapter(
+class SavedNewsAdapter(
     val onClick: ((Article)->Unit)
-): PagingDataAdapter<Article, NewsAdapter.ArticleViewHolder>(ItemComparator()) {
+): RecyclerView.Adapter<SavedNewsAdapter.ArticleViewHolder>() {
 
     inner class ArticleViewHolder(private val binding: ItemArticlePreviewBinding ): RecyclerView.ViewHolder(binding.root){
         fun bind(article: Article) = with(binding){
@@ -36,10 +36,14 @@ class NewsAdapter(
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        holder.bind(differ.currentList[position])
     }
 
-    class ItemComparator : DiffUtil.ItemCallback<Article>(){
+    override fun getItemCount(): Int {
+        return differ.currentList.size
+    }
+
+    private val differCallback= object: DiffUtil.ItemCallback<Article>(){
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.url==newItem.url
         }
@@ -47,4 +51,6 @@ class NewsAdapter(
             return oldItem==newItem
         }
     }
+
+    val differ = AsyncListDiffer(this,differCallback)
 }
