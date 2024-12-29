@@ -7,29 +7,27 @@ import com.example.mvvm_newsapp.models.Article
 import com.example.mvvm_newsapp.models.NewsResponse
 import com.example.mvvm_newsapp.repository.NewsRepository
 import com.example.mvvm_newsapp.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class NewsViewModel(
-val newsRepository: NewsRepository
+@HiltViewModel
+class NewsViewModel @Inject constructor(
+    val newsRepository: NewsRepository
 ): ViewModel(){
 
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var breakingNewsPage=1
-
     var breakingNewsResponse:NewsResponse?=null
-
 
     val searchNews:MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     var searchNewsPage=1
     var searchNewsResponse:NewsResponse?=null
 
 
-    init {
-        getBreakingNews("us")
-    }
-
-    fun getBreakingNews(countryCode:String)=viewModelScope.launch{
+    fun getBreakingNews(countryCode:String)=viewModelScope.launch(Dispatchers.IO){
         breakingNews.postValue(Resource.Loading())
         val response=newsRepository.getBreakingNews(countryCode,breakingNewsPage)
 
@@ -80,13 +78,13 @@ val newsRepository: NewsRepository
 
     }
 
-    fun saveArticle(article: Article)=viewModelScope.launch {
+    fun saveArticle(article: Article)=viewModelScope.launch(Dispatchers.IO) {
         newsRepository.upsert(article)
     }
 
-    fun getSavedNews()= newsRepository.getSavedNews()
+    fun getSavedNews() = newsRepository.getSavedNews()
 
-    fun deleteArticle(article: Article)=viewModelScope.launch {
+    fun deleteArticle(article: Article)=viewModelScope.launch(Dispatchers.IO) {
         newsRepository.deleteArticle(article)
     }
 

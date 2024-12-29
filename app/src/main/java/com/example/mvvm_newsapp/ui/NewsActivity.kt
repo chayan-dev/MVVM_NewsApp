@@ -7,28 +7,28 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.mvvm_newsapp.R
+import com.example.mvvm_newsapp.databinding.ActivityNewsBinding
 import com.example.mvvm_newsapp.db.ArticleDatabase
 import com.example.mvvm_newsapp.repository.NewsRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
 
-    lateinit var viewModel: NewsViewModel
-
+    private lateinit var viewModel: NewsViewModel
+    private lateinit var binding: ActivityNewsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_news)
+        binding = ActivityNewsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val newsRepository= NewsRepository(ArticleDatabase(this))
-        val viewModelProviderFactory= NewsViewModelProviderFactory(newsRepository)
-        viewModel= ViewModelProvider(this,viewModelProviderFactory).get(NewsViewModel::class.java)
+        viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
 
-
-        val bottomNav: BottomNavigationView =findViewById(R.id.bottomNavigationView)
+        val bottomNav: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.newsNavHostFragment) as NavHostFragment
         bottomNav.setupWithNavController(navHostFragment.findNavController())
-
     }
 }

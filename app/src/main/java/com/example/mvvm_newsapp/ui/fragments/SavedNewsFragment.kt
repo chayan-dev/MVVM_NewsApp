@@ -1,9 +1,12 @@
 package com.example.mvvm_newsapp.ui.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,33 +17,51 @@ import com.example.mvvm_newsapp.databinding.FragmentSavedNewsBinding
 import com.example.mvvm_newsapp.ui.NewsActivity
 import com.example.mvvm_newsapp.ui.NewsViewModel
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
-class SavedNewsFragment: Fragment(R.layout.fragment_saved_news) {
+@AndroidEntryPoint
+class SavedNewsFragment: Fragment() {
 
     private lateinit var binding:FragmentSavedNewsBinding
+    private lateinit var viewModel: NewsViewModel
+    private lateinit var newsAdapter: NewsAdapter
 
-    lateinit var viewModel: NewsViewModel
-    lateinit var newsAdapter: NewsAdapter
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding=FragmentSavedNewsBinding.inflate(inflater,container,false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding= FragmentSavedNewsBinding.bind(view)
 
-        viewModel = (activity as NewsActivity).viewModel
+        viewModel = ViewModelProvider(requireActivity())[NewsViewModel::class.java]
         setupRecycleView()
+        addSwipeDelete(view)
 
-        newsAdapter.setOnItemClickListener {
+        viewModel.getSavedNews().observe(viewLifecycleOwner){ articles->
+            newsAdapter.differ.submitList(articles)
+        }
+    }
+
+    private fun setupRecycleView(){
+        newsAdapter= NewsAdapter(){ article ->
             val bundle=Bundle().apply {
-                putSerializable("article",it)
+                putSerializable("article",article)
             }
             findNavController().navigate(
                 R.id.action_savedNewsFragment_to_articleFragment,
                 bundle
             )
         }
+        binding.rvSavedNews.adapter=newsAdapter
+    }
 
-        val itemTouchHelperCallBack=object: ItemTouchHelper.SimpleCallback(
+    private fun addSwipeDelete(view: View){
+        val itemTouchHelperCallBack = object: ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ){
@@ -67,19 +88,6 @@ class SavedNewsFragment: Fragment(R.layout.fragment_saved_news) {
 
         ItemTouchHelper(itemTouchHelperCallBack).apply {
             attachToRecyclerView(binding.rvSavedNews)
-        }
-
-        viewModel.getSavedNews().observe(viewLifecycleOwner, Observer { articles->
-
-            newsAdapter.differ.submitList(articles)
-        })
-    }
-
-    private fun setupRecycleView(){
-        newsAdapter= NewsAdapter()
-        binding.rvSavedNews.apply {
-            adapter=newsAdapter
-            layoutManager= LinearLayoutManager(activity)
         }
     }
 }
