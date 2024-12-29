@@ -42,9 +42,12 @@ class SavedNewsFragment: Fragment() {
         setupRecycleView()
         addSwipeDelete(view)
 
-        viewModel.getSavedNews().observe(viewLifecycleOwner){ articles->
-            newsAdapter.differ.submitList(articles)
+        viewModel.savedArticle.observe(viewLifecycleOwner){ articles ->
+            newsAdapter.submitData(lifecycle,articles)
         }
+
+
+        viewModel.getSavedNews()
     }
 
     private fun setupRecycleView(){
@@ -74,15 +77,18 @@ class SavedNewsFragment: Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position=viewHolder.adapterPosition
-                val article=newsAdapter.differ.currentList[position]
-                viewModel.deleteArticle(article)
-                Snackbar.make(view,"Successfully deleted article", Snackbar.LENGTH_LONG).apply {
-                    setAction("Undo"){
-                        viewModel.saveArticle(article)
+                val position=viewHolder.bindingAdapterPosition
+                val article=newsAdapter.peek(position)
+                if (article != null) {
+                    viewModel.deleteArticle(article)
+                    Snackbar.make(view,"Successfully deleted article", Snackbar.LENGTH_LONG).apply {
+                        setAction("Undo"){
+                            viewModel.saveArticle(article)
+                        }
+                        show()
                     }
-                    show()
                 }
+
             }
         }
 
