@@ -11,14 +11,14 @@ import androidx.paging.LoadState
 import com.example.mvvm_newsapp.R
 import com.example.mvvm_newsapp.ui.adapters.NewsAdapter
 import com.example.mvvm_newsapp.databinding.FragmentBreakingNewsBinding
-import com.example.mvvm_newsapp.ui.NewsViewModel
+import com.example.mvvm_newsapp.ui.viewmodels.BreakingNewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
 
     private lateinit var binding: FragmentBreakingNewsBinding
-    private lateinit var viewModel: NewsViewModel
+    private lateinit var viewModel: BreakingNewsViewModel
     private lateinit var newsAdapter: NewsAdapter
 
     override fun onCreateView(
@@ -32,7 +32,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[NewsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[BreakingNewsViewModel::class.java]
         setupRecycleView()
         addObservers()
         viewModel.getBreakingNews("us")

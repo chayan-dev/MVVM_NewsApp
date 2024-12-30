@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.mvvm_newsapp.R
 import com.example.mvvm_newsapp.databinding.FragmentArticleBinding
-import com.example.mvvm_newsapp.ui.NewsViewModel
+import com.example.mvvm_newsapp.ui.viewmodels.ArticleViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ArticleFragment : Fragment() {
 
     private lateinit var binding: FragmentArticleBinding
-    private lateinit var viewModel: NewsViewModel
+    private lateinit var viewModel: ArticleViewModel
     private val args: ArticleFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -33,7 +33,7 @@ class ArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity())[NewsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ArticleViewModel::class.java]
         val article = args.article
 
         binding.webView.apply {

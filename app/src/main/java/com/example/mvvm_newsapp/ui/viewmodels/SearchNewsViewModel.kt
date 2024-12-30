@@ -1,4 +1,4 @@
-package com.example.mvvm_newsapp.ui
+package com.example.mvvm_newsapp.ui.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,27 +18,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NewsViewModel @Inject constructor(
+class SearchNewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
 
-    val breakingNews: MutableLiveData<PagingData<Article>> = MutableLiveData()
     val searchNews: MutableLiveData<PagingData<Article>> = MutableLiveData()
-    val savedArticle: MutableLiveData<List<Article>> = MutableLiveData()
-
-    fun getBreakingNews(countryCode: String) = viewModelScope.launch(Dispatchers.IO) {
-        Pager(
-            PagingConfig(pageSize = PAGE_SIZE),
-            pagingSourceFactory = {
-                NewsPagingSource(
-                    newsRepository,
-                    countryCode
-                )
-            }
-        ).flow.cachedIn(viewModelScope).collect { pagingData ->
-            breakingNews.postValue(pagingData)
-        }
-    }
 
     fun searchNews(searchQuery: String) = viewModelScope.launch(Dispatchers.IO) {
         Pager(
@@ -52,18 +36,5 @@ class NewsViewModel @Inject constructor(
         ).flow.cachedIn(viewModelScope).collect { pagingData ->
             searchNews.postValue(pagingData)
         }
-    }
-
-    fun saveArticle(article: Article) = viewModelScope.launch(Dispatchers.IO) {
-        newsRepository.upsert(article)
-    }
-
-    fun getSavedNews() = viewModelScope.launch(Dispatchers.IO) {
-        savedArticle.postValue(newsRepository.getSavedNews())
-    }
-
-    fun deleteArticle(article: Article) = viewModelScope.launch(Dispatchers.IO) {
-        newsRepository.deleteArticle(article)
-        getSavedNews()
     }
 }

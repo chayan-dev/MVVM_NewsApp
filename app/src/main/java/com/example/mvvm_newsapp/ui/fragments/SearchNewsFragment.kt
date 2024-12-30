@@ -12,7 +12,7 @@ import androidx.paging.LoadState
 import com.example.mvvm_newsapp.R
 import com.example.mvvm_newsapp.ui.adapters.NewsAdapter
 import com.example.mvvm_newsapp.databinding.FragmentSearchNewsBinding
-import com.example.mvvm_newsapp.ui.NewsViewModel
+import com.example.mvvm_newsapp.ui.viewmodels.SearchNewsViewModel
 import com.example.mvvm_newsapp.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 class SearchNewsFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchNewsBinding
-    private lateinit var viewModel: NewsViewModel
+    private lateinit var viewModel: SearchNewsViewModel
     private lateinit var newsAdapter: NewsAdapter
     private var job: Job? = null;
 
@@ -40,7 +40,7 @@ class SearchNewsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity())[NewsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[SearchNewsViewModel::class.java]
         setupRecycleView()
         addObserver()
         addTextChangeListener()

@@ -16,15 +16,12 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NewsActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: NewsViewModel
     private lateinit var binding: ActivityNewsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(this)[NewsViewModel::class.java]
 
         val bottomNav: BottomNavigationView = findViewById(R.id.bottomNavigationView)
         val navHostFragment =

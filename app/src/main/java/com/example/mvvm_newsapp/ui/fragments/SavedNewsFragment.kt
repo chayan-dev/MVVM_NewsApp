@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvm_newsapp.R
 import com.example.mvvm_newsapp.databinding.FragmentSavedNewsBinding
-import com.example.mvvm_newsapp.ui.NewsViewModel
+import com.example.mvvm_newsapp.ui.viewmodels.SavedNewsViewModel
 import com.example.mvvm_newsapp.ui.adapters.SavedNewsAdapter
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SavedNewsFragment : Fragment() {
 
     private lateinit var binding: FragmentSavedNewsBinding
-    private lateinit var viewModel: NewsViewModel
+    private lateinit var viewModel: SavedNewsViewModel
     private lateinit var newsAdapter: SavedNewsAdapter
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class SavedNewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(requireActivity())[NewsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[SavedNewsViewModel::class.java]
         setupRecycleView()
         addSwipeDelete(view)
         addObservers()
