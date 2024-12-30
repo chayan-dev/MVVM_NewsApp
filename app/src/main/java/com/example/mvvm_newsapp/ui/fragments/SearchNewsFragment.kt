@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.mvvm_newsapp.R
@@ -72,7 +73,7 @@ class SearchNewsFragment : Fragment() {
     private fun addTextChangeListener(){
         binding.etSearch.addTextChangedListener { editable ->
             job?.cancel()
-            job = MainScope().launch {
+            job = viewLifecycleOwner.lifecycleScope.launch {
                 delay(SEARCH_NEWS_TIME_DELAY)
                 editable?.let {
                     if (editable.toString().isNotEmpty()) {
