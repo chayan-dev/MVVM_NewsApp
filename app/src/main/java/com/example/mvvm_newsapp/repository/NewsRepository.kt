@@ -17,11 +17,11 @@ class NewsRepository @Inject constructor(
     suspend fun searchNews(searchQuery: String, pageNumber: Int) =
         api.searchForNews(searchQuery, pageNumber)
 
-    fun upsert(article: Article) = dao.upsert(article)
+    suspend fun upsert(article: Article) = dao.upsert(article)
 
-    fun getSavedNews() = dao.getAllArticles()
+    suspend fun getSavedNews() = dao.getAllArticles()
 
-    fun deleteArticle(article: Article) = dao.deleteArticle(article)
+    suspend fun deleteArticle(article: Article) = dao.deleteArticle(article)
 
 
 }
