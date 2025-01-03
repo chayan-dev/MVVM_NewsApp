@@ -15,7 +15,7 @@ import com.example.mvvm_newsapp.ui.viewmodels.BreakingNewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
+class BreakingNewsFragment : Fragment() {
 
     private lateinit var binding: FragmentBreakingNewsBinding
     private lateinit var viewModel: BreakingNewsViewModel
